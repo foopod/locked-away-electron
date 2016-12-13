@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Locked Away</title>
+        <link rel="stylesheet" href="assets/style.css">
+        <meta name="viewport" content="width=480" />
+        <link rel="shortcut icon" type="image/png" href="assets/favicon.png">
+    </head>
+    <body>
+
+       <div style="-webkit-app-region: drag; height:1em;">
+       </div>
+
+       <div id="diary" style="padding-left:2em; padding-right:2em;">
+        <div id="loginHeader">
+            <h1 class="header">LockedAway</h1>
+            <h3 style="text-align:center" class="subHeader">Your Personal Diary</h3>
+        </div>
+        <div id="loginContainer" class="container">
+            <form action="javascript:login()" name="loginForm" id="loginForm">
+                <span class="label">Username</span>
+                <span class="label error username"></span>
+                <input id="username" type="text" value="addy12">
+                <span class="label">Password</span>
+                <span class="label error password"></span>
+                <input id="password" type=password>
+                <span class="passwordHint">Password hint : favourite month</span>
+                <input type="submit" class="submit" value="Login" id="loginButton">
+            </form>
+        </div>
+       </div>
+        <!-- Insert this line above script imports  -->
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+        <!-- normal script imports etc  -->
+        <script src="assets/jquery.min.js"></script>    
+        <script src="assets/entries.js"></script>
+        <script src="assets/app.js"></script>
+
+        <!-- Insert this line after script imports -->
+        <script>if (window.module) module = window.module;</script>
+        <script type="text/javascript">
+            var attempted = false;
+            var firstAttempt = "password";
+            var login = function() {
+                if($("#username").val().length == 0){
+                    $(".label.error.username").html("Required");
+                } else {
+                    $(".label.error.username").empty();
+                    if($("#password").val().toLowerCase() == "december" || ($("#password").val().length > 0 && $("#password").val() != firstAttempt)){
+                        if($("#password").val().toLowerCase() == "december" || attempted){
+                            $("#loginContainer").remove();
+                            $(".footer").remove();
+                            $("#loginHeader").remove();
+                            $("#diary").append('<h3 style="font-weight:300;" id="pageIntro">Latest entry...</h3><div id="diaryContainer"></div>');
+                            init();
+                        } else { 
+                            $(".label.error.password").html("Incorrect. Try again.");
+                            firstAttempt = $("#password").val();
+                            attempted = true;
+                        }
+                    } else if($("#password").val() == firstAttempt){
+                        $(".label.error.password").html("Incorrect. Try again.");
+                    } else {
+                        $(".label.error.password").html("Required");
+                    }
+                }
+            };
+        </script>
+    </body>
+</html>
